@@ -1,9 +1,11 @@
 "use client"
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, ChangeEvent } from 'react'
 import Image from 'next/image'
 import { getWeatherBySearch } from '@/api/current_weather'
 import moment from "moment-timezone"
+import Input from '@/components/Input'
+
 
 interface WeatherData {
   location: {
@@ -161,6 +163,8 @@ export default function Home() {
   })
 
 
+  const [searchData, setSearchData] = useState<string>("")
+
   const getWeather = (timeZoneData: string) => {
 
     const timeZone = timeZoneData
@@ -180,19 +184,20 @@ export default function Home() {
     })
   }
 
+
   const weatherDataService = async (searchQuery: string, days: number) => {
     try {
       const getWeatherData = await getWeatherBySearch(searchQuery, days)
-
       setInterval(() => {
         getWeather(getWeatherData.location.tz_id)
       }, 1000);
       setWeatherData(getWeatherData)
-
     } catch (error) {
 
     }
   }
+
+
 
   const getDayfromDate = (date: string) => {
     const inputDate = date;
@@ -203,13 +208,27 @@ export default function Home() {
     return formattedDate
   }
 
+  const getTimefromDate = (date: string) => {
+    const inputDate = date
+    const formattedDate = moment(inputDate).format('dddd, DD MMM - hh:mm A');
+
+    return formattedDate
+  }
+
   useEffect(() => {
-    weatherDataService("pondicherry", 5)
+    weatherDataService("pondicherry", 14)
   }, [])
 
 
-  console.log(weatherData);
 
+  const handleEnterKeyPress = async () => {
+    const intervalId = await weatherDataService(searchData, 14)
+    // if (intervalId) {
+    //   clearInterval(intervalId);
+    // }
+    // console.log(intervalId);
+
+  }
 
 
 
@@ -219,7 +238,16 @@ export default function Home() {
         <div className='flex justify-center items-center mt-10'>
           <div className=' backdrop-blur-xl flex  items-center gap-5 bg-dull_grey/50 w-1/2 p-2 rounded-full shadow-white'>
             <img src="/icons/search.png" alt="search" className='w-4 ml-3' />
-            <input placeholder='Search city, country' type="text" name="search" id="search" className='w-full bg-transparent outline-none border-none text-grey' />
+            <Input
+              placeholder='Search city, country'
+              type="text"
+              name="search"
+              id="search"
+              className='bg-transparent outline-none border-none text-grey w-full'
+              value={searchData}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => setSearchData(e.target.value)}
+              onEnter={() => handleEnterKeyPress()}
+            />
           </div>
         </div>
         <div className='w-11/12 flex items-center justify-center gap-5 mt-16 m-auto'>
@@ -233,9 +261,9 @@ export default function Home() {
               <p className='text-center text-neutral-400 md:text-lg 2xl:text-2xl'>{timeData.dayAndDate}</p>
             </div>
           </div>
-          <div className='backdrop-blur-xl bg-dull_grey/50 w-3/4 h-96 rounded-3xl flex justify-around items-center'>
+          <div className='backdrop-blur-xl bg-dull_grey/50 w-3/4 h-96 rounded-3xl flex justify-around items-center p-8'>
             <div>
-              <h2 className='text-8xl font-bold'>{weatherData.current.temp_c}°C</h2>
+              <h2 className='2xl:text-8xl md:text-xl font-bold'>{weatherData.current.temp_c}°C</h2>
               <div className=' text-neutral-400 flex items-center justify-center'>
                 <p className='text-2xl font-medium'>Feels like: </p>
                 <h2 className='text-5xl font-medium'>&nbsp;{weatherData.current.feelslike_c}°C</h2>
@@ -277,42 +305,48 @@ export default function Home() {
             </div>
           </div>
         </div>
-
-        <div className='w-11/12 flex items-center justify-center gap-5 mt-8 m-auto mb-16'>
-          <div className='backdrop-blur-xl bg-dull_grey/50 w-1/4 h-96 rounded-3xl flex flex-col items-center '>
-            <h2 className='text-center pt-4 text-3xl font-medium text-neutral-400 '>Hourly forecast</h2>
-            <div className='overflow-y-scroll hideScrollHourly'>
-            {
-              weatherData.forecast.forecastday[0].hour.map((item, i) => (
-                <div className='flex items-center justify-start gap-2 rounded-2xl border-neutral-700 bg-neutral-700/50 w-96 mt-2 pl-8 p-2'>
-                  <div>
-                    <img src={`weather_icons/${item.is_day?"day":"night"}/${item.condition.code}.png`} alt={item.condition.text} className='w-12' />
-                  </div>
-                  <div>
-                    <p>{item.condition.text}({item.temp_c}°C)</p>
-                    <p>{item.time}</p>
-                  </div>
-                </div>
-              ))
-            }
-           
-
-            </div>
-          </div>
-          <div className='backdrop-blur-xl w-3/4 h-96 bg-dull_grey/50 m-auto rounded-3xl  '>
+        <div className='w-11/12 flex items-center justify-center gap-5 mt-8 m-auto mb-16 relative'>
+          <div className='backdrop-blur-xl w-3/4 h-96 bg-dull_grey/50 m-auto rounded-3xl relative'>
             <h2 className='text-center p-2 text-3xl font-medium text-neutral-400'>Day forecast</h2>
-            <div className='flex items-center justify-around h-max mt-8'>
-              {
-                weatherData.forecast.forecastday.map((item, i) =>
-                (
-                  <div className='flex flex-col items-center rounded-2xl bg-neutral-700/50 w-60 h-60 p-2 border-2 border-neutral-700'>
+            <div className='flex items-center gap-5 mt-8 overflow-x-scroll px-8 horizontalScroll p-2'>
+              <div className='flex items-center gap-5'>
+                {weatherData.forecast.forecastday.map((item, i) => (
+                  <div
+                    key={i}
+                    className='cursor-pointer flex flex-col items-center rounded-2xl bg-neutral-700/50 w-60 h-60 p-2 border-2 border-neutral-700'
+                  >
                     <p className='font-bold text-3xl'>{item.day.avgtemp_c}°C</p>
-                    <img src={`/weather_icons/day/${item.day.condition.code}.png`} alt={item.day.condition.text} className='w-24 mt-5' />
+                    <img
+                      src={`/weather_icons/day/${item.day.condition.code}.png`}
+                      alt={item.day.condition.text}
+                      className='w-24 mt-5'
+                    />
                     <p className='mt-2 font-normal text-2xl'>{item.day.condition.text}</p>
                     <p className='text-neutral-400 font-medium'>{getDayfromDate(item.date)}</p>
                   </div>
-                )
-                )}
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className='backdrop-blur-xl bg-dull_grey/50 w-1/4 h-96 rounded-3xl flex flex-col items-center '>
+            <h2 className='text-center pt-4 text-3xl font-medium text-neutral-400 '>Hourly forecast</h2>
+            <div className='overflow-y-scroll hideScrollHourly'>
+              {
+                weatherData.forecast.forecastday[0].hour.map((item, i) => (
+                  <div key={i} className='flex items-center justify-start gap-2 rounded-2xl border-neutral-700 bg-neutral-700/50 w-full mt-2 pl-8 p-2'>
+                    <div>
+                      <img src={`weather_icons/${item.is_day ? "day" : "night"}/${item.condition.code}.png`} alt={item.condition.text} className='w-12' />
+                    </div>
+                    <div>
+                      <p>{item.condition.text}({item.temp_c}°C)</p>
+                      <p className='text-sm text-neutral-400'>{getTimefromDate(item.time)}</p>
+                    </div>
+                  </div>
+                ))
+              }
+
+
             </div>
           </div>
         </div>

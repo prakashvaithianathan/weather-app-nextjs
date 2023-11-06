@@ -29,26 +29,28 @@ body {
 
 
 
-/* ::-webkit-scrollbar {
+.horizontalScroll::-webkit-scrollbar {
   width: 5px;
+  height: 10px ;
 }
 
 
-::-webkit-scrollbar-track {
+.horizontalScroll::-webkit-scrollbar-track {
+ 
   box-shadow: inset 0 0 5px grey; 
-  border-radius: 10px;
+  /* border-radius: 10px; */
 }
  
 
-::-webkit-scrollbar-thumb {
+.horizontalScroll::-webkit-scrollbar-thumb {
   background: rgba(99, 99, 99, 0.219); 
   border-radius: 10px;
 }
 
 
-::-webkit-scrollbar-thumb:hover {
+.horizontalScroll::-webkit-scrollbar-thumb:hover {
   background: black; 
-} */
+}
 
 body::-webkit-scrollbar{
   display: none;
@@ -57,3 +59,5 @@ body::-webkit-scrollbar{
 .hideScrollHourly::-webkit-scrollbar{
   display: none;
 }
+
+
