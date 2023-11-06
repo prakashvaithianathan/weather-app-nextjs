@@ -3,9 +3,9 @@ import { axiosInstance } from './api.instance'
 
 
 
-export const getWeatherBySearch = async (query: string): Promise<any> => {
+export const getWeatherBySearch = async (query: string, days: number): Promise<any> => {
     try {
-        const weather = await axiosInstance.get(`/current.json?q=${query}`, {
+        const weather = await axiosInstance.get(`/forecast.json?q=${query}&days=${days}`, {
             headers: {
                 key: process.env.NEXT_PUBLIC_WEATHER_API_KEY
             }
