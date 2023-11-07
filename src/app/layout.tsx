@@ -6,8 +6,8 @@ const inter = Inter({ subsets: ['latin'] })
 const outfit = Outfit({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Weather Application',
-  description: 'Weather application',
+  title: 'Wind.ly',
+  description: 'Wind.ly',
 }
 
 export default function RootLayout({
