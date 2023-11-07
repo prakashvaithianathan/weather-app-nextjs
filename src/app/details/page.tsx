@@ -13,8 +13,7 @@ const Details = () => {
 
     if (getData !== null) {
         result = JSON.parse(getData);
-        // Now you can work with the parsed JSON data in the 'result' variable.
-        console.log(result);
+        
     } else {
         router.push('/')
         return

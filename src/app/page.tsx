@@ -330,8 +330,8 @@ export default function Home() {
                       <h2 className='text-2xl lg:text-5xl font-medium'>&nbsp;{weatherData.current.feelslike_c}°C</h2>
                     </div>
                   </div>
-                  <div className='w-max flex flex-col items-center'>
-                    <Image width={100} height={100} src={`/weather_icons/${weatherData.current.is_day ? "day" : "night"}/${weatherData.current.condition.code}.png`} alt={weatherData.current.condition.text} className='w-1/4 lg:w-1/3 xl:w-1/4  m-auto mt-10 lg:mt-0' />
+                  <div className='w-max flex flex-col items-center w-1/4 lg:w-1/3 xl:w-1/4 '>
+                    <Image width={100} height={100} src={`/weather_icons/${weatherData.current.is_day ? "day" : "night"}/${weatherData.current.condition.code}.png`} alt={weatherData.current.condition.text} className=' m-auto mt-10 lg:mt-0' />
                     <p className='text-center mt-2  lg:mt-6 font-medium text-3xl lg:text-5xl  w-3/4'>{weatherData.current.condition.text}</p>
                   </div>
                   <div className='grid grid-cols-2 items-center gap-12 gap-x-20 mt-8 lg:mt-0'>
