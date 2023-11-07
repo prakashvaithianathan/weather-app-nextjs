@@ -1,10 +1,8 @@
 "use client"
 
 import { useEffect, useState, ChangeEvent } from 'react'
-
 import Image from 'next/image'
 import { getWeatherBySearch } from '@/api/current_weather'
-import moment from "moment-timezone"
 import Input from '@/components/Input'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
@@ -12,7 +10,6 @@ import { ThreeDots } from 'react-loader-spinner'
 import { getTimefromDate, getDayfromDate, getWeather } from '@/utils/findData'
 import Cookies from 'js-cookie'
 import { ToastContainer, toast } from 'react-toastify';
-
 import 'react-toastify/dist/ReactToastify.css';
 
 interface WeatherData {
