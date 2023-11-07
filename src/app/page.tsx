@@ -403,13 +403,14 @@ export default function Home() {
                         })
                       }
                     }}
+                    key={i}
                   >
                     <div
                       // onClick={() => {
                       //   console.log(item);
 
                       // }}
-                      key={i}
+
                       className='cursor-pointer flex flex-col items-center rounded-2xl bg-neutral-700/50 w-60 h-60 p-2 border-2 border-neutral-700'
                     >
                       <p className='font-bold text-3xl'>{item.day.avgtemp_c}°C</p>
