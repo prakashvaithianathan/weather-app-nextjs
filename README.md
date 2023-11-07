@@ -6,16 +6,17 @@ Wind.ly is the application to check weather forecast.
 
 ## Installation
  
+ ```bash
  - NPM - npm install
  - YARN - yarn
-
+```
 
 ## Start 
 
 ```bash
   - Development
-     - NPM - npm start
-     - YARN - yarn start
+     - NPM - npm run dev
+     - YARN - yarn dev
 
  - Production
      - NPM 
