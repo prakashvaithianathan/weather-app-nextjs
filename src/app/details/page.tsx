@@ -6,17 +6,24 @@ import { useSearchParams } from 'next/navigation'
 
 const Details = () => {
     const searchParams = useSearchParams()
-    const getData: string = searchParams.get('search')
-    console.log(getData.condition);
+    const getData: string | null = searchParams.get('search')
+    let result: any; // Declare the 'result' variable
 
-    const result = JSON.parse(getData)
+    if (getData !== null) {
+        result = JSON.parse(getData);
+        // Now you can work with the parsed JSON data in the 'result' variable.
+        console.log(result);
+    } else {
+        // Handle the case where getData is null
+        console.log('getData is null');
+    }
 
     return (
         <div>
             <div className='w-11/12 bg-dull_grey h-max lg:h-screen m-auto rounded-2xl my-10'>
                 <div className='w-full text-center pt-5'>
-                 <h2 className='text-gold text-5xl font-medium '>{result.location.place}</h2>
-                 <p className='text-neutral-400 text-xl mt-2'>{result.location.timeData}</p>
+                    <h2 className='text-gold text-5xl font-medium '>{result.location.place}</h2>
+                    <p className='text-neutral-400 text-xl mt-2'>{result.location.timeData}</p>
                 </div>
                 <div className='flex flex-col lg:flex-row justify-between p-12 mt-8 gap-12 '>
                     <div>
@@ -46,14 +53,14 @@ const Details = () => {
 
                         <div className='grid grid-cols-2 lg:grid-cols-3 items-center gap-12 gap-x-20'>
                             <div className='flex flex-col items-center gap-2'>
-                                <img src="/weather_icons/humidity.png" alt="humidity"  className='w-20' />
+                                <img src="/weather_icons/humidity.png" alt="humidity" className='w-20' />
                                 <div>
                                     <p className='text-2xl font-medium text-center'>{result.day.avg_humidity}%</p>
                                     <p className='text-lg font-normal'>Humidity</p>
                                 </div>
                             </div>
                             <div className='flex flex-col items-center gap-2'>
-                                <img src="/weather_icons/wind.png" alt="wind"  className='w-20'  />
+                                <img src="/weather_icons/wind.png" alt="wind" className='w-20' />
                                 <div>
                                     <p className='text-2xl font-medium text-center'>{result.day.max_wind_kph}km/h</p>
                                     <p className='text-lg font-normal text-center'>Wind</p>
@@ -67,35 +74,35 @@ const Details = () => {
                                 </div>
                             </div>
                             <div className='flex flex-col items-center gap-2'>
-                                <img src="/weather_icons/uv.png" alt="uv"  className='w-20'  />
+                                <img src="/weather_icons/uv.png" alt="uv" className='w-20' />
                                 <div>
                                     <p className='text-2xl font-medium text-center'>{result.day.uv}</p>
                                     <p className='text-lg font-normal text-center'>UV</p>
                                 </div>
                             </div>
                             <div className='flex flex-col items-center gap-2'>
-                                <img src="/weather_icons/temperature.png" alt="temperature"  className='w-20' />
+                                <img src="/weather_icons/temperature.png" alt="temperature" className='w-20' />
                                 <div>
                                     <p className='text-2xl font-medium text-center'>{result.day.avg_temp}°C</p>
                                     <p className='text-lg font-normal text-center'>Average Temperature</p>
                                 </div>
                             </div>
                             <div className='flex flex-col items-center gap-2'>
-                                <img src="/weather_icons/temperature.png" alt="temperature"  className='w-20' />
+                                <img src="/weather_icons/temperature.png" alt="temperature" className='w-20' />
                                 <div>
                                     <p className='text-2xl font-medium text-center'>{result.day.max_temp}°C</p>
                                     <p className='text-lg font-normal text-center'>Max. Temperature</p>
                                 </div>
                             </div>
                             <div className='flex flex-col items-center gap-2'>
-                                <img src="/weather_icons/rain.png" alt="rain" className='w-20'  />
+                                <img src="/weather_icons/rain.png" alt="rain" className='w-20' />
                                 <div>
                                     <p className='text-2xl font-medium text-center'>{result.day.rainChance}%</p>
                                     <p className='text-lg font-normal text-center'>Chances of Rain</p>
                                 </div>
                             </div>
                             <div className='flex flex-col items-center gap-2'>
-                                <img src="/weather_icons/snow.png" alt="snow" className='w-20'  />
+                                <img src="/weather_icons/snow.png" alt="snow" className='w-20' />
                                 <div>
                                     <p className='text-2xl font-medium text-center'>{result.day.snowChance}%</p>
                                     <p className='text-lg font-normal text-center'>Chances of Snow</p>
