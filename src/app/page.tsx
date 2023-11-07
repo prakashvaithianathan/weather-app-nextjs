@@ -198,9 +198,6 @@ export default function Home() {
   const [searchData, setSearchData] = useState<string>("")
   const [isLoading, setIsLoading] = useState(true)
   const [isError, setIsError] = useState(true)
-  const [intervalId, setIntervalId] = useState<ReturnType<typeof setTimeout> | null>(null);
-
-
 
 
   useEffect(() => {
